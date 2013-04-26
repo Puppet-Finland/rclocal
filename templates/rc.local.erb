@@ -1,0 +1,19 @@
+#!/bin/sh
+
+# Simplified "init" script for launching services, with little tailoring 
+# needed for each OS.
+
+SCRIPTDIR="/etc/rc.local.d"
+
+# If no arguments (e.g. during startup), launch all services
+if [ "$1" = "" ]; then
+	run-parts $SCRIPTDIR
+
+# If an argument is given, load only the appropriate script
+else
+	if [ -x $SCRIPTDIR/$1 ]; then
+		$SCRIPTDIR/$1
+	fi
+fi
+
+exit 0
