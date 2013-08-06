@@ -1,9 +1,13 @@
 #!/bin/sh
 
 ### THIS FILE IS MANAGED BY PUPPET. ANY MANUAL CHANGES WILL GET OVERWRITTEN.
-
-# Simplified "init" script for launching services, with little tailoring 
+#
+# Simplified "init" script for launching services, with very little tailoring
 # needed for each OS.
+#
+# WARNING: If you want to customize /etc/rc.local (i.e. this file) just don't do
+# it. Instead add you own scripts under /etc/rc.local.d and make them
+# executable. This way they will be loaded automatically on boot.
 
 SCRIPTDIR="/etc/rc.local.d"
 
