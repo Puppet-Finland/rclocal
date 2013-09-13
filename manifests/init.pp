@@ -26,6 +26,9 @@
 #
 class rclocal {
 
+# Rationale for this is explained in init.pp of the sshd module
+if hiera('manage_rclocal') != 'false' {
+
     include rclocal::params
 
     # We need run-parts command to load the fragments
@@ -47,4 +50,5 @@ class rclocal {
         group => root,
         mode => 755,
     }
+}
 }
