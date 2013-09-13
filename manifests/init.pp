@@ -27,7 +27,7 @@
 class rclocal {
 
 # Rationale for this is explained in init.pp of the sshd module
-if hiera('manage_rclocal') != 'false' {
+if hiera('manage_rclocal', 'true') != 'false' {
 
     include rclocal::params
 
