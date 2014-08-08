@@ -10,6 +10,8 @@
 #   Name of the rclocal script. For simplicity, this define will look for a 
 #   template ${modulename}/${modulename}.erb, and place it in 
 #   /etc/rc.local.d/${modulename}.
+# [*basename*]
+#   Basename of the rc.local.d template file. Defaults to $modulename.
 #
 # == Examples
 #
@@ -27,10 +29,15 @@
 # BSD-lisence
 # See file LICENSE for details
 #
-define rclocal::script ($modulename) {
+define rclocal::script
+(
+    $modulename,
+    $basename=$modulename
+)
+{
     file { "rclocal-${modulename}":
-        name => "/etc/rc.local.d/${modulename}",
-        content => template("${modulename}/${modulename}.erb"),
+        name => "/etc/rc.local.d/${basename}",
+        content => template("${modulename}/${basename}.erb"),
         ensure => present,
         owner => root,
         group => root,
