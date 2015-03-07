@@ -8,7 +8,8 @@
 #
 # == Parameters
 #
-# None at the moment
+# [*manage*]
+#   Manage rc.local using this module. Valid values 'yes' (default) and 'no'.
 #
 # == Examples
 #
@@ -24,31 +25,16 @@
 #
 # BSD-license. See file LICENSE for details.
 #
-class rclocal {
+class rclocal
+(
+    $manage = 'yes'
+)
+{
 
-# Rationale for this is explained in init.pp of the sshd module
-if hiera('manage_rclocal', 'true') != 'false' {
-
-    include rclocal::params
-
+if $manage == 'yes' {
     # We need run-parts command to load the fragments
     include runparts
-
-    file { 'rclocal-rc.local.d':
-        name => '/etc/rc.local.d',
-        ensure => directory,
-    }
-
-    # In SuSE /etc/init.d/after.local would be the "natural" place for this 
-    # script, but in OpenSuSE 12.1 and later it's not loaded anymore due to 
-    # ongoing migration to systemd. Therefore we use /etc/init.d/boot.local, 
-    # which runs earlier, but seems to work for now.
-    file { 'file-rclocal-rc.local':
-        name => $rclocal::params::rclocal_script,
-        content => template('rclocal/rc.local.erb'),
-        owner => root,
-        group => root,
-        mode => 755,
-    }
+    include rclocal::config
+    include rclocal::service
 }
 }

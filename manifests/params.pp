@@ -5,23 +5,27 @@
 #
 class rclocal::params {
 
+    include os::params
+
     case $::osfamily {
         'RedHat': {
             $rclocal_script = '/etc/rc.d/rc.local'
-        }
-        'Suse': {
-            # In SuSE /etc/init.d/after.local would be the "natural" place for 
-            # this script, but in OpenSuSE 12.1 and later it's not loaded 
-            # anymore due to ongoing migration to systemd. Therefore we use 
-            # /etc/init.d/boot.local, which runs earlier, but seems to work for 
-            # now.
-            $rclocal_script = '/etc/init.d/boot.local'
+            $legacy_service_name = 'rc.local'
         }
         'Debian': {
             $rclocal_script = '/etc/rc.local'
+            $legacy_service_name = 'rc.local'
         }
         default: {
-            $rclocal_script = '/etc/rc.local'
+            fail("Unsupported operating system ${::operatingsystem}")
         }
+    }
+
+    if $::has_systemd == 'true' {
+        $service_name = 'rc-local'
+        $service_provider = 'systemd'
+    } else {
+        $service_name = $legacy_service_name
+        $service_provider = undef
     }
 }
