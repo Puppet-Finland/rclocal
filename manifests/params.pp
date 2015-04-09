@@ -24,8 +24,10 @@ class rclocal::params {
     if $::has_systemd == 'true' {
         $service_name = 'rc-local'
         $service_provider = 'systemd'
+        $service_enable = true
     } else {
         $service_name = $legacy_service_name
         $service_provider = undef
+        $service_enable = undef
     }
 }
