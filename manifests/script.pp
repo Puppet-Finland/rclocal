@@ -35,13 +35,15 @@ define rclocal::script
     $basename=$modulename
 )
 {
+    include ::rclocal::params
+
     file { "rclocal-${modulename}":
-        name => "/etc/rc.local.d/${basename}",
+        ensure  => present,
+        name    => "/etc/rc.local.d/${basename}",
         content => template("${modulename}/${basename}.erb"),
-        ensure => present,
-        owner => root,
-        group => root,
-        mode => 755,
+        owner   => $::os::params::adminuser,
+        group   => $::os::params::admingroup,
+        mode    => '0755',
         require => Class['rclocal'],
     }
 }

@@ -33,8 +33,8 @@ class rclocal
 
 if $manage == 'yes' {
     # We need run-parts command to load the fragments
-    include runparts
-    include rclocal::config
-    include rclocal::service
+    include ::runparts
+    include ::rclocal::config
+    include ::rclocal::service
 }
 }

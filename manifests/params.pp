@@ -5,7 +5,7 @@
 #
 class rclocal::params {
 
-    include os::params
+    include ::os::params
 
     case $::osfamily {
         'RedHat': {
@@ -21,7 +21,7 @@ class rclocal::params {
         }
     }
 
-    if $::has_systemd == 'true' {
+    if str2bool($::has_systemd) {
         $service_name = 'rc-local'
         $service_provider = 'systemd'
         $service_enable = true
